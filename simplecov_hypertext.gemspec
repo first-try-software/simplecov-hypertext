@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 $LOAD_PATH.push File.expand_path("../lib", __FILE__)
-require "simplecov-html/version"
+require "simplecov_hypertext/version"
 
 Gem::Specification.new do |gem|
-  gem.name        = "simplecov-html"
-  gem.version     = SimpleCov::Formatter::HTMLFormatter::VERSION
+  gem.name        = "simplecov-hypertext"
+  gem.version     = SimpleCov::Formatter::HypertextFormatter::VERSION
   gem.platform    = Gem::Platform::RUBY
-  gem.authors     = ["Christoph Olszowka"]
-  gem.email       = ["christoph at olszowka de"]
-  gem.homepage    = "https://github.com/simplecov-ruby/simplecov-html"
-  gem.description = %(Default HTML formatter for SimpleCov code coverage tool for ruby 2.4+)
+  gem.authors     = ["Christoph Olszowka", "Alan Ridlehoover", "Fito von Zastrow"]
+  gem.email       = ["admin@firsttry.software"]
+  gem.homepage    = "https://github.com/first-try-software/simplecov-hypertext"
+  gem.description = %(Hypertext formatter for SimpleCov code coverage tool that supports large codebases.)
   gem.summary     = gem.description
   gem.license     = "MIT"
 

@@ -2,8 +2,8 @@
 
 module SimpleCov
   module Formatter
-    class HTMLFormatter
-      VERSION = "0.13.2"
+    class HypertextFormatter
+      VERSION = "0.0.1"
     end
   end
 end

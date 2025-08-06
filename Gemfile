@@ -28,4 +28,8 @@ group :development do
   gem "uglifier"
 end
 
+group :development, :test do
+  gem "rspec"
+end
+
 gem "logger" if RUBY_VERSION >= "3.4"

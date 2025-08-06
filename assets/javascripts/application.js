@@ -8,83 +8,6 @@ $(document).ready(function () {
     paging: false
   });
 
-  // Syntax highlight all files up front - deactivated
-  // $('.source_table pre code').each(function(i, e) {hljs.highlightBlock(e, '  ')});
-
-  // Syntax highlight source files on first toggle of the file view popup
-  $("a.src_link").click(function () {
-    // Get the source file element that corresponds to the clicked element
-    var source_table = $($(this).attr('href'));
-
-    // If not highlighted yet, do it!
-    if (!source_table.hasClass('highlighted')) {
-      source_table.find('pre code').each(function (i, e) { hljs.highlightBlock(e, '  ') });
-      source_table.addClass('highlighted');
-    };
-  });
-
-  var prev_anchor;
-  var curr_anchor;
-
-  // Set-up of popup for source file views
-  $("a.src_link").colorbox({
-    transition: "none",
-    inline: true,
-    opacity: 1,
-    width: "95%",
-    height: "95%",
-    onLoad: function () {
-      prev_anchor = curr_anchor ? curr_anchor : window.location.hash.substring(1);
-      curr_anchor = this.href.split('#')[1];
-      window.location.hash = curr_anchor;
-
-      $('.file_list_container').hide();
-    },
-    onCleanup: function () {
-      if (prev_anchor && prev_anchor != curr_anchor) {
-        $('a[href="#' + prev_anchor + '"]').click();
-        curr_anchor = prev_anchor;
-      } else {
-        $('.group_tabs a:first').click();
-        prev_anchor = curr_anchor;
-        curr_anchor = "#_AllFiles";
-      }
-      window.location.hash = curr_anchor;
-
-      var active_group = $('.group_tabs li.active a').attr('class');
-      $("#" + active_group + ".file_list_container").show();
-    }
-  });
-
-  // Set-up of anchor of linenumber
-  $('.source_table li[data-linenumber]').click(function () {
-    $('#cboxLoadedContent').scrollTop(this.offsetTop);
-    var new_anchor = curr_anchor.replace(/-.*/, '') + '-L' + $(this).data('linenumber');
-    window.location.replace(window.location.href.replace(/#.*/, '#' + new_anchor));
-    curr_anchor = new_anchor;
-    return false;
-  });
-
-  window.onpopstate = function (event) {
-    if (window.location.hash.substring(0, 2) == "#_") {
-      $.colorbox.close();
-      curr_anchor = window.location.hash.substring(1);
-    } else {
-      if ($('#colorbox').is(':hidden')) {
-        var anchor = window.location.hash.substring(1);
-        var ary = anchor.split('-L');
-        var source_file_id = ary[0];
-        var linenumber = ary[1];
-        $('a.src_link[href="#' + source_file_id + '"]').colorbox({ open: true });
-        if (linenumber !== undefined) {
-          $('#cboxLoadedContent').scrollTop($('#cboxLoadedContent .source_table li[data-linenumber="' + linenumber + '"]')[0].offsetTop);
-        }
-      }
-    }
-  };
-
-  // Hide src files and file list container after load
-  $('.source_files').hide();
   $('.file_list_container').hide();
 
   // Add tabs based upon existing file_list_containers
@@ -122,18 +45,7 @@ $(document).ready(function () {
 
   if (window.location.hash) {
     var anchor = window.location.hash.substring(1);
-    if (anchor.length === 40) {
-      $('a.src_link[href="#' + anchor + '"]').click();
-    } else if (anchor.length > 40) {
-      var ary = anchor.split('-L');
-      var source_file_id = ary[0];
-      var linenumber = ary[1];
-      $('a.src_link[href="#' + source_file_id + '"]').colorbox({ open: true });
-      // Scroll to anchor of linenumber
-      $('#' + source_file_id + ' li[data-linenumber="' + linenumber + '"]').click();
-    } else {
-      $('.group_tabs a.' + anchor.replace('_', '')).click();
-    }
+    $('.group_tabs a.' + anchor.replace('_', '')).click();
   } else {
     $('.group_tabs a:first').click();
   };

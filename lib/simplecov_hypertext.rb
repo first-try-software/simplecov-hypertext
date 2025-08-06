@@ -14,7 +14,7 @@ end
 
 module SimpleCov
   module Formatter
-    class HTMLFormatter
+    class HypertextFormatter
       # Only have a few content types, just hardcode them
       CONTENT_TYPES = {
         ".js" => "text/javascript",
@@ -40,6 +40,15 @@ module SimpleCov
         File.open(File.join(output_path, "index.html"), "wb") do |file|
           file.puts template("layout").result(binding)
         end
+
+        source_path = File.join(output_path, "source")
+        Dir.mkdir(source_path) unless File.directory?(source_path)
+        result.source_files.each do |source_file|
+          File.open(File.join(source_path, "#{id(source_file)}.html"), "wb") do |file|
+            file.puts(formatted_source_file(source_file, result))
+          end
+        end
+
         puts output_message(result)
       end
 
@@ -79,7 +88,7 @@ module SimpleCov
       def asset_output_path
         return @asset_output_path if defined?(@asset_output_path) && @asset_output_path
 
-        @asset_output_path = File.join(output_path, "assets", SimpleCov::Formatter::HTMLFormatter::VERSION)
+        @asset_output_path = File.join(output_path, "assets", SimpleCov::Formatter::HypertextFormatter::VERSION)
         FileUtils.mkdir_p(@asset_output_path)
         @asset_output_path
       end
@@ -87,7 +96,7 @@ module SimpleCov
       def assets_path(name)
         return asset_inline(name) if @inline_assets
 
-        File.join("./assets", SimpleCov::Formatter::HTMLFormatter::VERSION, name)
+        File.join("./assets", SimpleCov::Formatter::HypertextFormatter::VERSION, name)
       end
 
       def asset_inline(name)
@@ -101,7 +110,7 @@ module SimpleCov
       end
 
       # Returns the html for the given source_file
-      def formatted_source_file(source_file)
+      def formatted_source_file(source_file, result)
         template("source_file").result(binding)
       rescue Encoding::CompatibilityError => e
         puts "Encoding problems with file #{source_file.filename}. Simplecov/ERB can't handle non ASCII characters in filenames. Error: #{e.message}."
@@ -155,11 +164,11 @@ module SimpleCov
       end
 
       def link_to_source_file(source_file)
-        %(<a href="##{id source_file}" class="src_link" title="#{shortened_filename source_file}">#{shortened_filename source_file}</a>)
+        %(<a href="source/#{id(source_file)}.html" class="src_link" title="#{shortened_filename(source_file)}">#{shortened_filename(source_file)}</a>)
       end
     end
   end
 end
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__)))
-require "simplecov-html/version"
+require "simplecov_hypertext/version"

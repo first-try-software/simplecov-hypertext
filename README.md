@@ -1,30 +1,15 @@
-Default HTML formatter for SimpleCov
+Hypertext formatter for SimpleCov
 ====================================
 
-***Note: To learn more about SimpleCov, check out the main repo at https://github.com/simplecov-ruby/simplecov***
+SimpleCov-Hypertext is a SimpleCov formatter that generates hyperlinked HTML files for your code coverage data. 
 
-Generates a nice HTML report of your SimpleCov ruby code coverage results on Ruby 2.4+ using client-side Javascript
-quite extensively.
-
-
-Note on Patches/Pull Requests
------------------------------
-
-The formatter itself has no actual tests. Instead, it is tested in the cucumber features of simplecov itself. If you
-modify the formatter, please make sure the simplecov test suites still pass by doing the following:
-
-  * Clone simplecov into the parent directory of your simplecov-html checkout
-  * `cd` there, run `bundle`
-  * You should end up with all dev dependencies installed and simplecov-html being used from your disk
-  * Run the tests (units and features)
-
-Please remember to add tests if you add functionality.
-
-**Important:** If you modify the JS/CSS assets, you'll have to precompile them using `rake assets:compile` - otherwise,
-your changes will not be included in your coverage reports.
+Forked from SimpleCov-HTML, which renders all of its output in a single HTML file. When run against large codebases, this can produce a single HTML file that is 100s of megabytes. Browsers have difficulty rendering HTML files that large. To solve that problem, SimpleCov-Hypertext creates one HTML file for every source file and a single index.html with links to them all.
 
 
 Copyright
 ---------
 
-Copyright (c) 2010-2013 Christoph Olszowka. See LICENSE for details.
+Copyright (c) 2025 Alan Ridlehoover and Fito von Zastrow.
+Copyright (c) 2010-2013 Christoph Olszowka.
+
+See LICENSE for details.
